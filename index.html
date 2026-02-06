@@ -2,44 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Universal AI Chat Interface</title>
 
 <!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Marked.js CDN -->
+<!-- Marked Markdown -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<script>
-tailwind.config = {
-  darkMode: 'class'
-}
-</script>
-
 <style>
-/* markdown styling */
-.prose pre {
-  background:#0f172a;
-  color:#e5e7eb;
-  padding:12px;
-  border-radius:12px;
-  overflow:auto;
-}
-.prose code {
-  background:#e5e7eb;
-  padding:2px 6px;
-  border-radius:6px;
-}
-.dark .prose code {
-  background:#1f2937;
-}
+html,body { height:100%; }
+.typing-cursor::after { content:"▋"; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity:0; } }
 </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
-<!-- Loader fallback -->
 <div id="loading" class="fixed inset-0 flex items-center justify-center text-lg font-semibold">
 Loading App...
 </div>
@@ -48,98 +28,87 @@ Loading App...
 
   <!-- Sidebar -->
   <aside id="sidebar"
-    class="w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col fixed md:static inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition">
-    
-    <div class="p-4 flex justify-between items-center border-b dark:border-gray-700">
-      <div class="font-bold">AI Chat</div>
-      <button id="closeSidebar" class="md:hidden">✕</button>
+    class="fixed md:static z-40 inset-y-0 left-0 w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700
+           transform -translate-x-full md:translate-x-0 transition-transform duration-200 flex flex-col">
+
+    <div class="p-4 flex items-center justify-between border-b dark:border-gray-700">
+      <span class="font-bold">AI Chat</span>
+      <button id="closeSidebar" class="md:hidden text-xl">✕</button>
     </div>
 
-    <div class="p-3">
-      <button id="newChatBtn" class="w-full bg-black text-white dark:bg-white dark:text-black rounded-xl py-2">
-        + New Chat
-      </button>
-    </div>
+    <button id="newChatBtn"
+      class="m-3 p-2 rounded-lg bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900">
+      + New Chat
+    </button>
 
-    <div id="chatList" class="flex-1 overflow-y-auto p-2 space-y-2"></div>
+    <div id="chatList" class="flex-1 overflow-y-auto"></div>
 
     <div class="p-3 border-t dark:border-gray-700 space-y-2">
-      <button id="settingsBtn" class="w-full border rounded-xl py-2">Settings</button>
-      <button id="darkToggle" class="w-full border rounded-xl py-2">Toggle Dark</button>
+      <button id="settingsBtn" class="w-full p-2 rounded bg-gray-200 dark:bg-gray-700">Settings</button>
+      <button id="themeToggle" class="w-full p-2 rounded bg-gray-200 dark:bg-gray-700">Toggle Theme</button>
     </div>
   </aside>
 
   <!-- Main -->
-  <main class="flex-1 flex flex-col min-h-screen md:ml-72">
+  <div class="flex-1 flex flex-col min-h-screen">
 
     <!-- Top bar -->
-    <div class="h-14 flex items-center gap-3 px-4 border-b bg-white dark:bg-gray-800 dark:border-gray-700">
+    <header class="h-12 flex items-center gap-3 px-3 border-b bg-white dark:bg-gray-800 dark:border-gray-700">
       <button id="openSidebar" class="md:hidden text-xl">☰</button>
       <div id="chatTitle" class="font-semibold truncate">New Chat</div>
-    </div>
+    </header>
 
     <!-- Messages -->
-    <div id="messages"
-      class="flex-1 overflow-y-auto px-3 py-4 space-y-4 pb-40">
-    </div>
+    <main id="messages"
+      class="flex-1 overflow-y-auto px-3 py-4 space-y-4 pb-32">
+    </main>
 
-    <!-- Tool bar -->
-    <div class="px-3 py-2 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-x-auto">
-      <div class="flex gap-2 text-xs">
-        <button class="toolBtn border px-3 py-1 rounded-full">Text→Image</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Text→Video</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Text→Voice</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Image→Image</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Video→Text</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Voice→Text</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Text→Music</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">AI Avatar</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Ad Creator</button>
-        <button class="toolBtn border px-3 py-1 rounded-full">Code/App AI</button>
+    <!-- Input Bar -->
+    <div class="fixed bottom-0 left-0 right-0 md:left-72 bg-white dark:bg-gray-800 border-t dark:border-gray-700">
+      <div class="max-w-4xl mx-auto p-3">
+        <div class="flex gap-2 items-end">
+          <textarea id="input"
+            rows="1"
+            placeholder="Send a message…  (Shift+Enter = new line)"
+            class="flex-1 resize-none p-3 rounded-xl border dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:outline-none"></textarea>
+          <button id="sendBtn"
+            class="px-4 py-3 rounded-xl bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900">
+            Send
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Input -->
-    <div class="fixed bottom-0 left-0 right-0 md:left-72 bg-white dark:bg-gray-800 border-t dark:border-gray-700 p-3 pb-[env(safe-area-inset-bottom)]">
-      <div class="flex gap-2">
-        <textarea id="input"
-          rows="1"
-          class="flex-1 resize-none border rounded-xl p-3 max-h-40 overflow-y-auto bg-transparent"
-          placeholder="Type your message..."></textarea>
-        <button id="sendBtn"
-          class="px-5 rounded-xl bg-black text-white dark:bg-white dark:text-black">
-          Send
-        </button>
-      </div>
-    </div>
-
-  </main>
+  </div>
 </div>
 
 <!-- Settings Modal -->
-<div id="settingsModal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-  <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md p-5 space-y-4">
-    <div class="text-lg font-bold">Settings</div>
+<div id="settingsModal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center">
+  <div class="bg-white dark:bg-gray-800 w-full max-w-md rounded-xl p-5 space-y-4">
+    <h2 class="text-lg font-bold">Settings</h2>
 
     <div>
       <label class="text-sm">OpenRouter API Key</label>
-      <input id="apiKeyInput" type="password" class="w-full border rounded-lg p-2 bg-transparent"/>
+      <input id="apiKeyInput" type="password"
+        class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"/>
     </div>
 
     <div>
       <label class="text-sm">Model</label>
-      <input id="modelInput" class="w-full border rounded-lg p-2 bg-transparent"
-        value="deepseek/deepseek-r1:free"/>
+      <input id="modelInput" type="text"
+        class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
+        placeholder="tngtech/deepseek-r1t2-chimera:free"/>
     </div>
 
     <div>
-      <label class="text-sm">System Prompt</label>
-      <textarea id="systemPromptInput" class="w-full border rounded-lg p-2 h-24 bg-transparent"></textarea>
+      <label class="text-sm">Global System Prompt</label>
+      <textarea id="systemPromptInput"
+        class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600"></textarea>
     </div>
 
-    <div class="flex gap-2">
-      <button id="saveSettings" class="flex-1 bg-black text-white dark:bg-white dark:text-black rounded-xl py-2">Save</button>
-      <button id="closeSettings" class="flex-1 border rounded-xl py-2">Close</button>
+    <div class="flex justify-end gap-2">
+      <button id="closeSettings" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded">Close</button>
+      <button id="saveSettings" class="px-3 py-2 bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 rounded">Save</button>
     </div>
   </div>
 </div>
@@ -150,199 +119,241 @@ Loading App...
 ========================= */
 (function(){
 
-/* ---------- DOM ---------- */
-const loading = document.getElementById("loading");
-const app = document.getElementById("app");
-const messagesEl = document.getElementById("messages");
-const inputEl = document.getElementById("input");
+const $ = id => document.getElementById(id);
 
-/* ---------- STATE ---------- */
-let chats = JSON.parse(localStorage.getItem("ua_chats")||"[]");
-let activeId = localStorage.getItem("ua_active") || null;
+/* ---------- State ---------- */
+let chats = JSON.parse(localStorage.getItem("uaichats") || "[]");
+let currentChatId = localStorage.getItem("uaicurrent") || null;
+let apiKey = localStorage.getItem("uai_apikey") || "";
+let model = localStorage.getItem("uai_model") || "tngtech/deepseek-r1t2-chimera:free";
+let globalSystemPrompt = localStorage.getItem("uai_system") || "";
+let dark = localStorage.getItem("uai_dark") === "1";
 
-if(!chats.length){
-  createChat();
+/* ---------- Theme ---------- */
+if(dark) document.documentElement.classList.add("dark");
+
+/* ---------- Helpers ---------- */
+function saveAll(){
+  localStorage.setItem("uaichats", JSON.stringify(chats));
+  localStorage.setItem("uaicurrent", currentChatId || "");
 }
 
-/* ---------- DARK MODE ---------- */
-if(localStorage.getItem("ua_dark")==="1"){
-  document.documentElement.classList.add("dark");
+function uid(){
+  return "c"+Math.random().toString(36).slice(2);
 }
 
-document.getElementById("darkToggle").onclick = ()=>{
-  document.documentElement.classList.toggle("dark");
-  localStorage.setItem("ua_dark",
-    document.documentElement.classList.contains("dark")?"1":"0");
-};
-
-/* ---------- SIDEBAR ---------- */
-const sidebar = document.getElementById("sidebar");
-document.getElementById("openSidebar").onclick=()=> sidebar.classList.remove("-translate-x-full");
-document.getElementById("closeSidebar").onclick=()=> sidebar.classList.add("-translate-x-full");
-
-/* ---------- SETTINGS ---------- */
-const modal = document.getElementById("settingsModal");
-document.getElementById("settingsBtn").onclick=()=>{
-  modal.classList.remove("hidden");
-  apiKeyInput.value = localStorage.getItem("ua_key")||"";
-  modelInput.value = localStorage.getItem("ua_model")||"deepseek/deepseek-r1:free";
-  systemPromptInput.value = getActive().systemPrompt||"";
-};
-closeSettings.onclick=()=>modal.classList.add("hidden");
-
-saveSettings.onclick=()=>{
-  localStorage.setItem("ua_key", apiKeyInput.value.trim());
-  localStorage.setItem("ua_model", modelInput.value.trim());
-  getActive().systemPrompt = systemPromptInput.value;
-  persist();
-  modal.classList.add("hidden");
-};
-
-/* ---------- CHAT CRUD ---------- */
-function createChat(){
-  const id = "c_"+Date.now();
-  chats.unshift({id,title:"New Chat",messages:[],systemPrompt:""});
-  activeId=id;
-  persist();
+function getCurrentChat(){
+  return chats.find(c=>c.id===currentChatId);
 }
 
-function getActive(){
-  return chats.find(c=>c.id===activeId);
+function ensureChat(){
+  if(!currentChatId || !getCurrentChat()){
+    const c = {id:uid(), title:"New Chat", messages:[], system:""};
+    chats.unshift(c);
+    currentChatId = c.id;
+    saveAll();
+  }
 }
 
-function persist(){
-  localStorage.setItem("ua_chats", JSON.stringify(chats));
-  localStorage.setItem("ua_active", activeId);
-  renderList();
-}
-
-/* ---------- RENDER SIDEBAR ---------- */
-function renderList(){
-  const list = document.getElementById("chatList");
-  list.innerHTML="";
+/* ---------- Sidebar ---------- */
+function renderChatList(){
+  $("chatList").innerHTML = "";
   chats.forEach(c=>{
-    const d=document.createElement("div");
-    d.className="group border rounded-xl p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700";
-    d.innerHTML=`
-      <div class="flex justify-between items-center gap-2">
-        <div class="truncate">${c.title}</div>
-        <div class="hidden group-hover:flex gap-1">
-          <button data-r="${c.id}">✎</button>
-          <button data-d="${c.id}">🗑</button>
-        </div>
-      </div>`;
-    d.onclick=()=>{activeId=c.id; loadChat(); sidebar.classList.add("-translate-x-full");};
-    list.appendChild(d);
+    const div = document.createElement("div");
+    div.className = "p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer group";
+    if(c.id===currentChatId) div.className += " bg-gray-200 dark:bg-gray-700";
+
+    const row = document.createElement("div");
+    row.className="flex justify-between items-center gap-2";
+
+    const title = document.createElement("div");
+    title.className="truncate flex-1";
+    title.textContent = c.title || "Untitled";
+    title.onclick=()=>{ currentChatId=c.id; saveAll(); refresh(); closeSidebar(); };
+
+    const menu = document.createElement("div");
+    menu.className="hidden group-hover:flex gap-1";
+
+    const ren = document.createElement("button");
+    ren.textContent="✎";
+    ren.onclick=(e)=>{
+      e.stopPropagation();
+      const t = prompt("Rename chat", c.title);
+      if(t){ c.title=t; saveAll(); renderChatList(); renderTitle(); }
+    };
+
+    const del = document.createElement("button");
+    del.textContent="🗑";
+    del.onclick=(e)=>{
+      e.stopPropagation();
+      if(confirm("Delete chat?")){
+        chats = chats.filter(x=>x.id!==c.id);
+        if(currentChatId===c.id) currentChatId=null;
+        ensureChat(); saveAll(); refresh();
+      }
+    };
+
+    menu.appendChild(ren);
+    menu.appendChild(del);
+    row.appendChild(title);
+    row.appendChild(menu);
+    div.appendChild(row);
+    $("chatList").appendChild(div);
   });
 }
 
-document.getElementById("chatList").onclick=(e)=>{
-  if(e.target.dataset.d){
-    chats=chats.filter(x=>x.id!==e.target.dataset.d);
-    if(activeId===e.target.dataset.d) createChat();
-    persist(); loadChat();
-  }
-  if(e.target.dataset.r){
-    const c=chats.find(x=>x.id===e.target.dataset.r);
-    const t=prompt("Rename chat", c.title);
-    if(t){ c.title=t; persist(); loadChat(); }
-  }
-};
-
-document.getElementById("newChatBtn").onclick=()=>{createChat(); loadChat();};
-
-/* ---------- LOAD CHAT ---------- */
-function loadChat(){
-  const c=getActive();
-  if(!c) return;
-  document.getElementById("chatTitle").textContent=c.title;
-  messagesEl.innerHTML="";
-  c.messages.forEach(m=>addMsg(m.role,m.content,false));
-  scrollBottom();
+function renderTitle(){
+  const c=getCurrentChat();
+  $("chatTitle").textContent = c?.title || "Chat";
 }
-renderList();
-loadChat();
 
-/* ---------- MESSAGE RENDER ---------- */
-function addMsg(role, text, save=true){
-  if(!text && text!=="") return;
+/* ---------- Messages ---------- */
+function renderMessages(){
+  const box = $("messages");
+  box.innerHTML="";
+  const c=getCurrentChat();
+  if(!c) return;
 
-  const wrap=document.createElement("div");
-  wrap.className = role==="user" ? "flex justify-end" : "flex justify-start";
+  c.messages.forEach(m=>{
+    box.appendChild(renderMessageNode(m));
+  });
+  box.scrollTop = box.scrollHeight;
+}
 
-  const bubble=document.createElement("div");
-  bubble.className="max-w-[90%] md:max-w-2xl rounded-2xl p-3 border bg-white dark:bg-gray-800 prose dark:prose-invert";
-  if(role==="user"){
-    bubble.classList.add("bg-gray-200","dark:bg-gray-700");
-    bubble.textContent=text;
-  }else{
-    bubble.innerHTML = marked.parse(text);
+function renderMessageNode(m){
+  const wrap = document.createElement("div");
+  wrap.className = "flex " + (m.role==="user"?"justify-end":"justify-start");
+
+  const bubble = document.createElement("div");
+  bubble.className = "max-w-[90%] md:max-w-2xl p-3 rounded-xl border dark:border-gray-700 " +
+    (m.role==="user"
+      ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900"
+      : "bg-white dark:bg-gray-800");
+
+  if(m.role==="assistant"){
+    bubble.innerHTML = marked.parse(m.content || "");
+  } else {
+    bubble.textContent = m.content || "";
   }
 
   wrap.appendChild(bubble);
-  messagesEl.appendChild(wrap);
-
-  if(save){
-    getActive().messages.push({role,content:text});
-    persist();
-  }
+  return wrap;
 }
 
-/* ---------- INPUT AUTO SIZE ---------- */
-inputEl.addEventListener("input",()=>{
-  inputEl.style.height="auto";
-  inputEl.style.height=inputEl.scrollHeight+"px";
+/* ---------- Input Auto Grow ---------- */
+$("input").addEventListener("input", e=>{
+  e.target.style.height="auto";
+  e.target.style.height = Math.min(e.target.scrollHeight,200)+"px";
 });
 
-/* ---------- SEND ---------- */
-document.getElementById("sendBtn").onclick=send;
-inputEl.addEventListener("keydown",e=>{
+/* ---------- New Chat ---------- */
+$("newChatBtn").onclick=()=>{
+  const c={id:uid(), title:"New Chat", messages:[], system:""};
+  chats.unshift(c);
+  currentChatId=c.id;
+  saveAll();
+  refresh();
+  closeSidebar();
+};
+
+/* ---------- Send ---------- */
+$("sendBtn").onclick=send;
+$("input").addEventListener("keydown", e=>{
   if(e.key==="Enter" && !e.shiftKey){
-    e.preventDefault(); send();
+    e.preventDefault();
+    send();
   }
 });
 
 async function send(){
-  const text=inputEl.value.trim();
+  const text = $("input").value.trim();
   if(!text) return;
-  inputEl.value=""; inputEl.style.height="auto";
+  ensureChat();
+  const c=getCurrentChat();
 
-  addMsg("user",text,true);
-  if(getActive().messages.length===1){
-    getActive().title=text.slice(0,30);
+  c.messages.push({role:"user", content:text});
+  if(c.title==="New Chat") c.title=text.slice(0,40);
+  $("input").value="";
+  $("input").style.height="auto";
+  saveAll();
+  refresh();
+
+  // Hidden multimodal command router
+  if(await handleSpecialCommands(text)) return;
+
+  await streamAIResponse();
+}
+
+/* ---------- Special Commands (hidden features) ---------- */
+async function handleSpecialCommands(text){
+  const lower=text.toLowerCase();
+
+  function addAI(msg){
+    const c=getCurrentChat();
+    c.messages.push({role:"assistant", content:msg});
+    saveAll(); renderMessages();
   }
-  scrollBottom();
 
-  const apiKey = localStorage.getItem("ua_key");
+  if(lower.startsWith("/image ")){
+    const p=text.slice(7);
+    addAI("🖼️ Image generation requested:\n\n`"+p+"`\n\n(Connect your image API here)");
+    return true;
+  }
+  if(lower.startsWith("/video ")){
+    addAI("🎬 Text-to-Video queued (stub).");
+    return true;
+  }
+  if(lower.startsWith("/tts ")){
+    addAI("🔊 Text-to-Speech ready (stub).");
+    return true;
+  }
+  if(lower.startsWith("/stt ")){
+    addAI("🎙️ Voice-to-Text ready (stub).");
+    return true;
+  }
+  if(lower.startsWith("/music ")){
+    addAI("🎵 Music generation ready (stub).");
+    return true;
+  }
+  if(lower.startsWith("/avatar ")){
+    addAI("🧍 AI Avatar video ready (stub).");
+    return true;
+  }
+  return false;
+}
+
+/* ---------- Streaming OpenRouter ---------- */
+async function streamAIResponse(){
   if(!apiKey){
-    alert("Set API key in Settings");
+    alert("Set OpenRouter API key in Settings");
     return;
   }
 
-  const model = localStorage.getItem("ua_model") || "deepseek/deepseek-r1:free";
+  const c=getCurrentChat();
+  const sys = c.system || globalSystemPrompt;
 
-  const aiWrap=document.createElement("div");
-  aiWrap.className="flex justify-start";
-  const aiBubble=document.createElement("div");
-  aiBubble.className="max-w-[90%] md:max-w-2xl rounded-2xl p-3 border bg-white dark:bg-gray-800 prose dark:prose-invert";
-  aiWrap.appendChild(aiBubble);
-  messagesEl.appendChild(aiWrap);
+  const msgs=[];
+  if(sys) msgs.push({role:"system", content:sys});
+  c.messages.forEach(m=>msgs.push({role:m.role, content:m.content}));
+
+  const aiMsg = {role:"assistant", content:""};
+  c.messages.push(aiMsg);
+  renderMessages();
+
+  const container = $("messages").lastChild.querySelector("div");
+  container.classList.add("typing-cursor");
 
   try{
-    const msgs=[];
-    const sys=getActive().systemPrompt;
-    if(sys) msgs.push({role:"system",content:sys});
-    getActive().messages.forEach(m=>msgs.push(m));
-    msgs.push({role:"user",content:text});
-
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions",{
       method:"POST",
       headers:{
+        "Content-Type":"application/json",
         "Authorization":"Bearer "+apiKey,
-        "Content-Type":"application/json"
+        "HTTP-Referer": location.href,
+        "X-Title":"Universal AI Chat"
       },
-      body:JSON.stringify({
-        model,
+      body: JSON.stringify({
+        model:model,
         messages:msgs,
         stream:true
       })
@@ -351,72 +362,96 @@ async function send(){
     if(!res.body) throw new Error("No stream");
 
     const reader = res.body.getReader();
-    const dec = new TextDecoder();
-    let full="";
+    const decoder = new TextDecoder();
+    let buf="";
 
     while(true){
-      const {value,done}=await reader.read();
+      const {done,value} = await reader.read();
       if(done) break;
-      const chunk=dec.decode(value);
-      chunk.split("\n").forEach(line=>{
-        if(line.startsWith("data: ")){
-          const d=line.slice(6);
-          if(d==="[DONE]") return;
-          try{
-            const j=JSON.parse(d);
-            const tok=j.choices?.[0]?.delta?.content;
-            if(tok){
-              full+=tok;
-              aiBubble.innerHTML = marked.parse(full);
-              scrollBottom();
-            }
-          }catch{}
-        }
-      });
+      buf += decoder.decode(value,{stream:true});
+      const lines = buf.split("\n");
+      buf = lines.pop();
+
+      for(const line of lines){
+        if(!line.startsWith("data:")) continue;
+        const data=line.slice(5).trim();
+        if(data==="[DONE]") break;
+        try{
+          const json=JSON.parse(data);
+          const token = json.choices?.[0]?.delta?.content;
+          if(token){
+            aiMsg.content += token;
+            container.innerHTML = marked.parse(aiMsg.content);
+            $("messages").scrollTop = $("messages").scrollHeight;
+          }
+        }catch{}
+      }
     }
 
-    getActive().messages.push({role:"assistant",content:full});
-    persist();
-
   }catch(err){
-    aiBubble.textContent="Error: "+err.message;
+    aiMsg.content += "\n\n❌ Error: "+err.message;
   }
+
+  container.classList.remove("typing-cursor");
+  saveAll();
+  renderMessages();
 }
 
-/* ---------- SCROLL ---------- */
-function scrollBottom(){
-  setTimeout(()=>messagesEl.scrollTop=messagesEl.scrollHeight,50);
+/* ---------- Settings ---------- */
+$("settingsBtn").onclick=()=>{
+  $("settingsModal").classList.remove("hidden");
+  $("settingsModal").classList.add("flex");
+  $("apiKeyInput").value=apiKey;
+  $("modelInput").value=model;
+  $("systemPromptInput").value=globalSystemPrompt;
+};
+
+$("closeSettings").onclick=()=>hideSettings();
+
+function hideSettings(){
+  $("settingsModal").classList.add("hidden");
+  $("settingsModal").classList.remove("flex");
 }
 
-/* ---------- TOOL BUTTONS ---------- */
-document.querySelectorAll(".toolBtn").forEach(b=>{
-  b.onclick=()=>{
-    inputEl.value = `[${b.textContent}] `;
-    inputEl.focus();
-  };
-});
+$("saveSettings").onclick=()=>{
+  apiKey=$("apiKeyInput").value.trim();
+  model=$("modelInput").value.trim() || model;
+  globalSystemPrompt=$("systemPromptInput").value;
 
-/* ---------- TTS (Text→Voice) ---------- */
-window.speakText = function(t){
-  if(!("speechSynthesis" in window)) return alert("TTS not supported");
-  const u=new SpeechSynthesisUtterance(t);
-  speechSynthesis.speak(u);
+  localStorage.setItem("uai_apikey", apiKey);
+  localStorage.setItem("uai_model", model);
+  localStorage.setItem("uai_system", globalSystemPrompt);
+  hideSettings();
 };
 
-/* ---------- STT (Voice→Text) ---------- */
-window.voiceToText = function(){
-  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR) return alert("STT not supported");
-  const r=new SR();
-  r.onresult=e=> inputEl.value += " "+ e.results[0][0].transcript;
-  r.start();
+/* ---------- Theme Toggle ---------- */
+$("themeToggle").onclick=()=>{
+  dark=!dark;
+  document.documentElement.classList.toggle("dark", dark);
+  localStorage.setItem("uai_dark", dark?"1":"0");
 };
 
-/* ---------- FINAL INIT ---------- */
-loading.style.display="none";
-app.classList.remove("hidden");
+/* ---------- Sidebar Mobile ---------- */
+function openSidebar(){ $("sidebar").classList.remove("-translate-x-full"); }
+function closeSidebar(){ if(window.innerWidth<768) $("sidebar").classList.add("-translate-x-full"); }
+$("openSidebar").onclick=openSidebar;
+$("closeSidebar").onclick=closeSidebar;
 
-})(); // end safe init
+/* ---------- Refresh ---------- */
+function refresh(){
+  ensureChat();
+  renderChatList();
+  renderTitle();
+  renderMessages();
+}
+
+/* ---------- Boot ---------- */
+ensureChat();
+refresh();
+$("loading").style.display="none";
+$("app").classList.remove("hidden");
+
+})();
 </script>
 
 </body>
