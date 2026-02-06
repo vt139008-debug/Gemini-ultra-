@@ -1,190 +1,438 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI Creator Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Universal AI Chat Interface</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Marked.js for Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <style>
-*{box-sizing:border-box;font-family:Inter, sans-serif}
-body{margin:0;background:#0b0f19;color:#e6ebff}
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#11182a;border-bottom:1px solid #1f2a44}
-header h1{font-size:18px;margin:0}
-.container{display:flex;height:calc(100vh - 60px)}
-.sidebar{width:230px;background:#0f1628;border-right:1px solid #1f2a44;padding:12px}
-.sidebar button{width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:0;background:#18223a;color:#cfd8ff;cursor:pointer}
-.sidebar button.active{background:#3b82f6;color:white}
-.main{flex:1;display:flex;flex-direction:column}
-.panel{padding:18px;display:none;height:100%;overflow:auto}
-.panel.active{display:block}
-.card{background:#11182a;border:1px solid #1f2a44;border-radius:14px;padding:16px;margin-bottom:16px}
-label{font-size:13px;color:#9fb0ff}
-input,textarea,select{width:100%;margin-top:6px;margin-bottom:12px;padding:12px;border-radius:10px;border:1px solid #263459;background:#0c1324;color:white}
-textarea{min-height:100px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{background:#3b82f6;border:0;padding:12px;border-radius:10px;color:white;font-weight:600;cursor:pointer}
-.btn.secondary{background:#223055}
-.preview{width:100%;min-height:260px;border:2px dashed #263459;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#6b7bb3}
-img,video{max-width:100%;border-radius:12px}
-.small{font-size:12px;color:#8b9ad6}
-.api-row{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-bottom:10px}
+  html, body {
+    height: 100%;
+  }
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .sidebar-transition {
+    transition: transform .25s ease;
+  }
+  .typing-cursor::after {
+    content: "▋";
+    animation: blink 1s infinite;
+    margin-left: 2px;
+  }
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
 </style>
 </head>
-<body><header>
-<h1>AI Creator Studio</h1>
-<div class="small">Text → Image • Image → Video • Multi API</div>
-</header><div class="container"><div class="sidebar">
-<button class="active" onclick="showPanel('text2img')">Text → Image</button>
-<button onclick="showPanel('img2vid')">Image → Video</button>
-<button onclick="showPanel('history')">History</button>
-<button onclick="showPanel('settings')">Settings</button>
-</div><div class="main"><!-- TEXT TO IMAGE --><div id="text2img" class="panel active">
-<div class="card">
-<h3>Text to Image Generator</h3>
-<textarea id="t2iPrompt" placeholder="Describe your image..."></textarea>
-<div class="row">
-<select id="t2iStyle">
-<option>Realistic</option>
-<option>Anime</option>
-<option>3D Render</option>
-<option>Cinematic</option>
-</select>
-<select id="t2iQuality">
-<option>HD</option>
-<option>2K</option>
-<option>4K</option>
-</select>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen flex">
+
+<!-- Loading Fallback -->
+<div id="loading" class="fixed inset-0 flex items-center justify-center bg-white z-50 text-lg font-medium">
+  Loading App...
 </div>
-<button class="btn" onclick="generateImage()">Generate Image</button>
-</div><div class="card">
-<h3>Preview</h3>
-<div class="preview" id="imagePreview">No image yet</div>
+
+<!-- Sidebar -->
+<aside id="sidebar"
+  class="sidebar-transition fixed md:static z-40 top-0 left-0 h-full w-72 bg-white border-r border-gray-200 flex flex-col -translate-x-full md:translate-x-0">
+
+  <div class="p-4 border-b flex items-center justify-between">
+    <h1 class="font-semibold text-lg">Universal AI</h1>
+    <button id="closeSidebarBtn" class="md:hidden text-gray-500">✕</button>
+  </div>
+
+  <div class="p-3">
+    <button id="newChatBtn"
+      class="w-full bg-gray-900 text-white rounded-lg py-2 text-sm hover:opacity-90">
+      + New Chat
+    </button>
+  </div>
+
+  <div id="chatList" class="flex-1 overflow-y-auto px-2 pb-4 space-y-1"></div>
+
+  <div class="p-3 border-t space-y-2">
+    <button id="systemPromptBtn" class="w-full text-sm border rounded-lg py-2">System Prompt</button>
+    <button id="settingsBtn" class="w-full text-sm border rounded-lg py-2">Settings</button>
+    <button id="themeToggleBtn" class="w-full text-sm border rounded-lg py-2">Toggle Dark Mode</button>
+  </div>
+</aside>
+
+<!-- Overlay for mobile -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/40 z-30 hidden md:hidden"></div>
+
+<!-- Main Area -->
+<div class="flex-1 flex flex-col min-h-screen">
+
+  <!-- Top Bar -->
+  <header class="h-14 border-b bg-white flex items-center px-3 gap-3">
+    <button id="openSidebarBtn" class="md:hidden text-xl">☰</button>
+    <div id="chatTitle" class="font-medium truncate">New Chat</div>
+  </header>
+
+  <!-- Messages -->
+  <main id="messages"
+    class="flex-1 overflow-y-auto px-3 py-4 space-y-4">
+  </main>
+
+  <!-- Input Bar -->
+  <div class="border-t bg-white p-3 sticky bottom-0">
+    <div class="flex gap-2 items-end">
+      <textarea id="userInput" rows="1"
+        placeholder="Ask anything..."
+        class="flex-1 resize-none border rounded-xl px-3 py-2 text-sm max-h-40 overflow-y-auto focus:outline-none"></textarea>
+      <button id="sendBtn"
+        class="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm hover:opacity-90">
+        Send
+      </button>
+    </div>
+  </div>
+
 </div>
-</div><!-- IMAGE TO VIDEO --><div id="img2vid" class="panel">
-<div class="card">
-<h3>Image to Video Generator</h3>
-<input type="file" id="imageInput" accept="image/*" />
-<textarea id="i2vPrompt" placeholder="Describe motion, camera, mood..."></textarea>
-<div class="row">
-<select id="duration">
-<option value="4">4 sec</option>
-<option value="6">6 sec</option>
-<option value="8">8 sec</option>
-</select>
-<select id="motion">
-<option>Zoom</option>
-<option>Pan</option>
-<option>Rotate</option>
-<option>Drone</option>
-</select>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white w-full max-w-md rounded-xl p-5 space-y-4">
+    <h2 class="font-semibold text-lg">Settings</h2>
+
+    <div>
+      <label class="text-sm">OpenRouter API Key</label>
+      <input id="apiKeyInput" type="password" class="w-full border rounded-lg px-3 py-2 text-sm" />
+    </div>
+
+    <div>
+      <label class="text-sm">Model</label>
+      <input id="modelInput" type="text"
+        class="w-full border rounded-lg px-3 py-2 text-sm"
+        value="deepseek/deepseek-r1:free" />
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <button id="settingsCancel" class="px-4 py-2 border rounded-lg text-sm">Cancel</button>
+      <button id="settingsSave" class="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm">Save</button>
+    </div>
+  </div>
 </div>
-<button class="btn" onclick="generateVideo()">Generate Video</button>
-</div><div class="card">
-<h3>Preview</h3>
-<div class="preview" id="videoPreview">No video yet</div>
+
+<!-- System Prompt Modal -->
+<div id="systemModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white w-full max-w-md rounded-xl p-5 space-y-4">
+    <h2 class="font-semibold text-lg">System Prompt</h2>
+    <textarea id="systemPromptInput" rows="6"
+      class="w-full border rounded-lg px-3 py-2 text-sm"></textarea>
+
+    <div class="flex justify-end gap-2">
+      <button id="systemCancel" class="px-4 py-2 border rounded-lg text-sm">Cancel</button>
+      <button id="systemSave" class="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm">Save</button>
+    </div>
+  </div>
 </div>
-</div><!-- HISTORY --><div id="history" class="panel">
-<div class="card">
-<h3>Generation History</h3>
-<div id="historyList" class="small"></div>
-</div>
-</div><!-- SETTINGS --><div id="settings" class="panel">
-<div class="card">
-<h3>API Integrations</h3>
-<div class="api-row"><input placeholder="Text→Image API URL" id="api_t2i_url"><input placeholder="API Key" id="api_t2i_key"></div>
-<div class="api-row"><input placeholder="Image→Video API URL" id="api_i2v_url"><input placeholder="API Key" id="api_i2v_key"></div>
-<div class="api-row"><input placeholder="Alt Provider URL" id="api_alt_url"><input placeholder="API Key" id="api_alt_key"></div>
-<button class="btn secondary" onclick="saveSettings()">Save Settings</button>
-</div><div class="card">
-<h3>App Options</h3>
-<select id="themeSelect" onchange="setTheme(this.value)">
-<option value="dark">Dark</option>
-<option value="light">Light</option>
-</select>
-</div>
-</div></div>
-</div><script>
-function showPanel(id){
- document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
- event.target.classList.add('active');
-}
 
-function addHistory(text){
- const el=document.getElementById('historyList');
- const div=document.createElement('div');
- div.textContent=new Date().toLocaleTimeString()+" — "+text;
- el.prepend(div);
-}
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
 
-async function generateImage(){
- const prompt=document.getElementById('t2iPrompt').value;
- const style=document.getElementById('t2iStyle').value;
- const quality=document.getElementById('t2iQuality').value;
- const box=document.getElementById('imagePreview');
- box.innerHTML='Generating...';
+  // ---------- State ----------
+  let chats = JSON.parse(localStorage.getItem("ua_chats") || "[]");
+  let activeId = localStorage.getItem("ua_active") || null;
+  let apiKey = localStorage.getItem("ua_api") || "";
+  let model = localStorage.getItem("ua_model") || "deepseek/deepseek-r1:free";
+  let dark = localStorage.getItem("ua_dark") === "1";
 
- // ===== API SLOT =====
- const url=localStorage.getItem('api_t2i_url');
- const key=localStorage.getItem('api_t2i_key');
+  // ---------- Theme ----------
+  function applyTheme() {
+    if (dark) {
+      document.documentElement.classList.add("dark");
+      document.body.classList.remove("bg-gray-50","text-gray-900");
+      document.body.classList.add("bg-gray-900","text-gray-100");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.body.classList.add("bg-gray-50","text-gray-900");
+      document.body.classList.remove("bg-gray-900","text-gray-100");
+    }
+  }
 
- if(!url){ box.innerHTML='Set API in settings'; return; }
+  // ---------- Chat Helpers ----------
+  function newChat() {
+    const id = "c_" + Date.now();
+    const chat = { id, title: "New Chat", messages: [], system: "" };
+    chats.unshift(chat);
+    activeId = id;
+    persist();
+    renderChats();
+    renderMessages();
+  }
 
- try{
- const res=await fetch(url,{
- method:'POST',
- headers:{'Content-Type':'application/json','Authorization':key},
- body:JSON.stringify({prompt,style,quality})
- });
- const data=await res.json();
- const img=document.createElement('img');
- img.src=data.image_url;
- box.innerHTML='';
- box.appendChild(img);
- addHistory('Text→Image generated');
- }catch(e){ box.innerHTML='API Error'; }
-}
+  function getActive() {
+    return chats.find(c => c.id === activeId);
+  }
 
-async function generateVideo(){
- const file=document.getElementById('imageInput').files[0];
- if(!file) return alert('Upload image');
- const prompt=document.getElementById('i2vPrompt').value;
- const duration=document.getElementById('duration').value;
- const motion=document.getElementById('motion').value;
- const box=document.getElementById('videoPreview');
- box.innerHTML='Generating...';
+  function persist() {
+    localStorage.setItem("ua_chats", JSON.stringify(chats));
+    localStorage.setItem("ua_active", activeId || "");
+  }
 
- const url=localStorage.getItem('api_i2v_url');
- const key=localStorage.getItem('api_i2v_key');
- if(!url){ box.innerHTML='Set API in settings'; return; }
+  // ---------- Sidebar ----------
+  function renderChats() {
+    const box = $("chatList");
+    box.innerHTML = "";
+    chats.forEach(c => {
+      const row = document.createElement("div");
+      row.className = "group flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-gray-100 cursor-pointer";
 
- const form=new FormData();
- form.append('image',file);
- form.append('prompt',prompt);
- form.append('duration',duration);
- form.append('motion',motion);
+      const title = document.createElement("div");
+      title.className = "flex-1 text-sm truncate";
+      title.textContent = c.title || "Untitled";
+      title.onclick = () => { activeId = c.id; persist(); renderMessages(); closeSidebar(); };
 
- try{
- const res=await fetch(url,{method:'POST',headers:{'Authorization':key},body:form});
- const data=await res.json();
- const vid=document.createElement('video');
- vid.controls=true;
- vid.src=data.video_url;
- box.innerHTML='';
- box.appendChild(vid);
- addHistory('Image→Video generated');
- }catch(e){ box.innerHTML='API Error'; }
-}
+      const rename = document.createElement("button");
+      rename.textContent = "✎";
+      rename.className = "opacity-0 group-hover:opacity-100 text-xs";
+      rename.onclick = (e) => {
+        e.stopPropagation();
+        const t = prompt("Rename chat", c.title);
+        if (t) { c.title = t; persist(); renderChats(); }
+      };
 
-function saveSettings(){
- ['api_t2i_url','api_t2i_key','api_i2v_url','api_i2v_key','api_alt_url','api_alt_key']
- .forEach(id=>localStorage.setItem(id,document.getElementById(id).value));
- alert('Saved');
-}
+      const del = document.createElement("button");
+      del.textContent = "🗑";
+      del.className = "opacity-0 group-hover:opacity-100 text-xs";
+      del.onclick = (e) => {
+        e.stopPropagation();
+        if (confirm("Delete chat?")) {
+          chats = chats.filter(x => x.id !== c.id);
+          if (activeId === c.id) activeId = chats[0]?.id || null;
+          persist();
+          renderChats();
+          renderMessages();
+        }
+      };
 
-function setTheme(v){
- if(v==='light') document.body.style.background='#f4f6ff';
- else document.body.style.background='#0b0f19';
-}
-</script></body>
+      row.append(title, rename, del);
+      box.appendChild(row);
+    });
+  }
+
+  // ---------- Messages ----------
+  function renderMessages() {
+    const wrap = $("messages");
+    wrap.innerHTML = "";
+    const chat = getActive();
+    $("chatTitle").textContent = chat ? chat.title : "No Chat";
+    if (!chat) return;
+
+    chat.messages.forEach(m => addMessageEl(m.role, m.content));
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+
+  function addMessageEl(role, content, streaming=false) {
+    const wrap = $("messages");
+    const row = document.createElement("div");
+    row.className = role === "user" ? "flex justify-end" : "flex justify-start";
+
+    const bubble = document.createElement("div");
+    bubble.className = role === "user"
+      ? "max-w-[85%] bg-gray-900 text-white rounded-2xl px-4 py-3 text-sm whitespace-pre-wrap"
+      : "max-w-[85%] bg-white border rounded-2xl px-4 py-3 text-sm prose prose-sm max-w-none";
+
+    if (role === "assistant") {
+      bubble.innerHTML = marked.parse(content || "");
+    } else {
+      bubble.textContent = content;
+    }
+
+    if (streaming) bubble.classList.add("typing-cursor");
+
+    row.appendChild(bubble);
+    wrap.appendChild(row);
+    wrap.scrollTop = wrap.scrollHeight;
+    return bubble;
+  }
+
+  // ---------- Streaming ----------
+  async function streamAI(chat, userText) {
+    if (!apiKey) {
+      alert("Add OpenRouter API key in Settings");
+      return;
+    }
+
+    const msgs = [];
+    if (chat.system) msgs.push({ role:"system", content: chat.system });
+    chat.messages.forEach(m => msgs.push({role:m.role, content:m.content}));
+
+    const bubble = addMessageEl("assistant", "", true);
+
+    try {
+      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + apiKey,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model,
+          messages: msgs,
+          stream: true
+        })
+      });
+
+      if (!res.body) throw new Error("No stream");
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let full = "";
+
+      while (true) {
+        const {value, done} = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (let l of lines) {
+          if (!l.startsWith("data:")) continue;
+          const data = l.slice(5).trim();
+          if (data === "[DONE]") break;
+          try {
+            const json = JSON.parse(data);
+            const token = json.choices?.[0]?.delta?.content;
+            if (token) {
+              full += token;
+              bubble.innerHTML = marked.parse(full);
+              $("messages").scrollTop = $("messages").scrollHeight;
+            }
+          } catch(e){}
+        }
+      }
+
+      bubble.classList.remove("typing-cursor");
+      chat.messages.push({role:"assistant", content: full});
+      persist();
+
+    } catch (e) {
+      bubble.classList.remove("typing-cursor");
+      bubble.textContent = "Error: " + e.message;
+    }
+  }
+
+  // ---------- Send ----------
+  async function send() {
+    const ta = $("userInput");
+    const text = ta.value.trim();
+    if (!text) return;
+    const chat = getActive();
+    if (!chat) return;
+
+    addMessageEl("user", text);
+    chat.messages.push({role:"user", content:text});
+    ta.value = "";
+    autoSize(ta);
+    persist();
+
+    if (chat.messages.length === 1) {
+      chat.title = text.slice(0,40);
+      renderChats();
+    }
+
+    await streamAI(chat, text);
+  }
+
+  function autoSize(el){
+    el.style.height="auto";
+    el.style.height=Math.min(el.scrollHeight,160)+"px";
+  }
+
+  // ---------- Sidebar Toggle ----------
+  function openSidebar(){
+    $("sidebar").classList.remove("-translate-x-full");
+    $("sidebarOverlay").classList.remove("hidden");
+  }
+  function closeSidebar(){
+    $("sidebar").classList.add("-translate-x-full");
+    $("sidebarOverlay").classList.add("hidden");
+  }
+
+  // ---------- Modals ----------
+  function openSettings(){
+    $("apiKeyInput").value = apiKey;
+    $("modelInput").value = model;
+    $("settingsModal").classList.remove("hidden");
+    $("settingsModal").classList.add("flex");
+  }
+  function closeSettings(){
+    $("settingsModal").classList.add("hidden");
+    $("settingsModal").classList.remove("flex");
+  }
+
+  function openSystem(){
+    const chat = getActive();
+    $("systemPromptInput").value = chat?.system || "";
+    $("systemModal").classList.remove("hidden");
+    $("systemModal").classList.add("flex");
+  }
+  function closeSystem(){
+    $("systemModal").classList.add("hidden");
+    $("systemModal").classList.remove("flex");
+  }
+
+  // ---------- Events ----------
+  $("newChatBtn").onclick = newChat;
+  $("openSidebarBtn").onclick = openSidebar;
+  $("closeSidebarBtn").onclick = closeSidebar;
+  $("sidebarOverlay").onclick = closeSidebar;
+
+  $("sendBtn").onclick = send;
+  $("userInput").addEventListener("input", e=>autoSize(e.target));
+  $("userInput").addEventListener("keydown", e=>{
+    if (e.key==="Enter" && !e.shiftKey){
+      e.preventDefault(); send();
+    }
+  });
+
+  $("settingsBtn").onclick = openSettings;
+  $("settingsCancel").onclick = closeSettings;
+  $("settingsSave").onclick = ()=>{
+    apiKey = $("apiKeyInput").value.trim();
+    model = $("modelInput").value.trim() || model;
+    localStorage.setItem("ua_api", apiKey);
+    localStorage.setItem("ua_model", model);
+    closeSettings();
+  };
+
+  $("systemPromptBtn").onclick = openSystem;
+  $("systemCancel").onclick = closeSystem;
+  $("systemSave").onclick = ()=>{
+    const chat = getActive();
+    if (chat){
+      chat.system = $("systemPromptInput").value;
+      persist();
+    }
+    closeSystem();
+  };
+
+  $("themeToggleBtn").onclick = ()=>{
+    dark = !dark;
+    localStorage.setItem("ua_dark", dark?"1":"0");
+    applyTheme();
+  };
+
+  // ---------- Init ----------
+  applyTheme();
+  if (!chats.length) newChat();
+  if (!activeId && chats[0]) activeId = chats[0].id;
+  renderChats();
+  renderMessages();
+
+  // Hide loader AFTER init
+  $("loading").style.display = "none";
+})();
+</script>
+
+</body>
 </html>
