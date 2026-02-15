@@ -3,24 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELITE CANVA ZONE</title>
+    <meta name="description" content="ELITE CANVA ZONE - Professional Canva Templates & Designs. Buy high-quality digital products with easy UPI payments.">
+    <meta name="keywords" content="Canva Templates, Digital Products, UPI Payments, WhatsApp Support">
+    <title>ELITE CANVA ZONE - Professional Digital Products</title>
     <style>
-        /* Basic CSS for Bright & Engaging Theme */
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #020617; color: #FFFFFF; }
-        header { background: linear-gradient(45deg, #2563EB, #7C3AED); padding: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; }
+        /* Advanced CSS for Bright & Engaging Theme */
+        * { box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background: linear-gradient(135deg, #020617 0%, #1e293b 100%); color: #FFFFFF; line-height: 1.6; }
+        header { background: linear-gradient(45deg, #2563EB, #7C3AED); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 28px; font-weight: bold; color: #FACC15; }
         nav { display: flex; gap: 20px; }
-        nav a { color: #FFFFFF; text-decoration: none; }
-        .cta { background: #FACC15; color: #020617; padding: 10px 20px; border: none; cursor: pointer; }
-        .hero { text-align: center; padding: 50px; background: url('placeholder-hero.jpg') no-repeat center; background-size: cover; }
-        .product-gallery { display: flex; overflow-x: scroll; gap: 10px; padding: 20px; }
-        .product-item { min-width: 200px; height: 300px; background: #FFFFFF; border-radius: 10px; }
-        .footer { background: #2563EB; padding: 20px; text-align: center; }
-        .admin-panel { display: none; } /* Hidden by default, shown via JS */
-        .login-form { display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 50px auto; }
-        input, button { padding: 10px; }
-        .dashboard { display: none; } /* For customer dashboard */
-        /* Add more CSS as needed for full styling */
+        nav a { color: #FFFFFF; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+        nav a:hover { color: #06B6D4; }
+        .cta { background: #FACC15; color: #020617; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
+        .cta:hover { background: #EAB308; }
+        .hero { text-align: center; padding: 80px 20px; background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzI1NjNFQiIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdDM0FFRCIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiLz4KPC9zdmc+') no-repeat center; background-size: cover; animation: fadeIn 2s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .product-gallery { display: flex; overflow-x: auto; gap: 15px; padding: 20px; scrollbar-width: thin; scrollbar-color: #2563EB #020617; }
+        .product-item { min-width: 250px; height: 400px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s; cursor: pointer; }
+        .product-item:hover { transform: scale(1.05); }
+        .product-item img, .product-item video { width: 100%; height: 70%; object-fit: cover; border-radius: 15px 15px 0 0; }
+        .product-details { padding: 10px; text-align: center; color: #020617; }
+        .footer { background: #2563EB; padding: 30px 20px; text-align: center; color: #FFFFFF; }
+        .footer .logo { margin-bottom: 10px; }
+        .section { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+        .login-form, .register-form, .forgot-form { display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 50px auto; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        input, select, textarea { padding: 12px; border: 1px solid #06B6D4; border-radius: 8px; background: #FFFFFF; color: #020617; }
+        button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .dashboard { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 20px; }
+        .payment-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin: 20px 0; }
+        .payment-btn { background: #22C55E; color: #FFFFFF; padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: background 0.3s; }
+        .payment-btn:hover { background: #16A34A; }
+        .qr-code { text-align: center; margin: 20px 0; }
+        .qr-code img { max-width: 200px; border-radius: 10px; }
+        .admin-panel { background: #020617; padding: 40px; }
+        .admin-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .admin-section { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table th, .table td { padding: 10px; border: 1px solid #06B6D4; text-align: left; }
+        .analytics { display: flex; justify-content: space-around; margin: 20px 0; }
+        .chart { width: 200px; height: 100px; background: #2563EB; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; }
+        .coupon-form, .affiliate-form { margin-top: 20px; }
+        .logs { max-height: 200px; overflow-y: auto; background: #FFFFFF; color: #020617; padding: 10px; border-radius: 8px; }
+        .maintenance { text-align: center; margin-top: 20px; }
+        .hidden { display: none; }
+        @media (max-width: 768px) { .product-gallery { flex-direction: column; } .admin-dashboard { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -28,193 +55,128 @@
     <header>
         <div class="logo">ELITE CANVA ZONE</div>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#products">Products</a>
-            <a href="#account">Account</a>
+            <a href="#" onclick="showSection('home')">Home</a>
+            <a href="#" onclick="showSection('products')">Products</a>
+            <a href="#" onclick="showSection('account')">Account</a>
             <button class="cta" onclick="showBuyNow()">Buy Now</button>
         </nav>
     </header>
 
     <!-- Home Page -->
-    <section id="home" class="hero">
-        <h1>Welcome to ELITE CANVA ZONE</h1>
-        <p>Professional Canva Templates & Designs</p>
-        <div class="product-gallery">
-            <!-- Placeholder for 9:16 product previews -->
-            <div class="product-item">Product 1 (9:16 Image/Video)</div>
-            <div class="product-item">Product 2</div>
-            <!-- Add more -->
+    <section id="home" class="section">
+        <div class="hero">
+            <h1>Welcome to ELITE CANVA ZONE</h1>
+            <p>Professional Canva Templates & Designs for Your Business</p>
+            <div class="product-gallery">
+                <div class="product-item" onclick="viewProduct(1)">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDI1MCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI1MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMyNTYzRUIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iI0ZGRkZGRiI+UHJvZHVjdCAxPC90ZXh0Pjwvc3ZnPg==" alt="Product 1">
+                    <div class="product-details">
+                        <h3>Template 1</h3>
+                        <p>₹500 | Lifetime</p>
+                    </div>
+                </div>
+                <div class="product-item" onclick="viewProduct(2)">
+                    <video controls style="width:100%; height:70%;"><source src="data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAACAGlzb21pc28yYXZjMQAAAAhmcmVlAAAGF21kYXQ=" type="video/mp4"></video>
+                    <div class="product-details">
+                        <h3>Video Template</h3>
+                        <p>₹300 | Yearly</p>
+                    </div>
+                </div>
+                <!-- Add more products dynamically -->
+            </div>
+            <div class="trust-icons">
+                <h3>Why Choose Us?</h3>
+                <ul>
+                    <li>High-Quality Designs</li>
+                    <li>Instant Delivery</li>
+                    <li>24/7 Support</li>
+                </ul>
+            </div>
+            <div class="payment-methods">
+                <h3>Accepted Payments</h3>
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIgZmlsbD0iIzI1NjNFQiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjRkZGRkZGIj5HUGF5PC90ZXh0Pjwvc3ZnPg==" alt="GPay">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIgZmlsbD0iIzZCNkQ0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjRkZGRkZGIj5QaG9uZVBldTwvdGV4dD48L3N2Zz4=" alt="PhonePe">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIgZmlsbD0iIzdDM0FFRCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjRkZGRkZGIj5QGF5dG08L3RleHQ+PC9zdmc+ " alt="Paytm">
+                <span>UPI</span>
+            </div>
+            <div class="whatsapp-support">
+                <h3>Need Help?</h3>
+                <p>Contact us on WhatsApp: <a href="https://wa.me/7588363851" target="_blank">7588363851</a></p>
+            </div>
         </div>
-        <div class="trust-icons">Why Choose Us: Trust Icons Here</div>
-        <div class="payment-methods">Payments: GPay, PhonePe, Paytm, UPI</div>
-        <div class="whatsapp-support">WhatsApp Support: 7588363851</div>
     </section>
 
     <!-- Product Page -->
-    <section id="products" style="display: none;">
-        <h2>Products</h2>
-        <div class="product-gallery">
-            <!-- Fullscreen gallery with images/videos -->
-            <div class="product-item">Image 9:16</div>
-            <div class="product-item">Video</div>
-            <div class="product-item">YouTube Embed</div>
+    <section id="products" class="section">
+        <h2>Our Products</h2>
+        <div class="product-gallery" id="fullGallery">
+            <!-- Dynamic gallery -->
         </div>
-        <div class="product-details">
-            <p>Price: ₹100</p>
-            <p>Validity: Lifetime</p>
-            <button class="cta" onclick="buyProduct()">Buy Now</button>
+        <div id="productView" class="hidden">
+            <h3 id="productTitle"></h3>
+            <div id="mediaContainer"></div>
+            <div class="product-details">
+                <p id="productDesc"></p>
+                <p id="productPrice"></p>
+                <p id="productValidity"></p>
+                <button class="cta" onclick="buyProduct(currentProduct)">Buy Now</button>
+            </div>
         </div>
     </section>
 
     <!-- Customer Account System -->
-    <section id="account" style="display: none;">
-        <h2>Account</h2>
-        <div class="login-form">
+    <section id="account" class="section">
+        <h2>Customer Account</h2>
+        <div class="login-form" id="loginForm">
+            <h3>Login</h3>
             <input type="email" id="email" placeholder="Email/Phone">
             <input type="password" id="password" placeholder="Password">
             <button onclick="login()">Login</button>
-            <button onclick="register()">Register</button>
-            <button onclick="forgotPassword()">Forgot Password</button>
+            <button onclick="showRegister()">Register</button>
+            <button onclick="showForgot()">Forgot Password</button>
         </div>
-        <div class="dashboard" id="dashboard">
-            <h3>Dashboard</h3>
-            <p>Order History: Placeholder</p>
-            <p>Product Access: Placeholder</p>
-            <button onclick="downloadInvoice()">Download Invoice</button>
+        <div class="register-form hidden" id="registerForm">
+            <h3>Register</h3>
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="text" id="regPhone" placeholder="Phone">
+            <input type="password" id="regPass" placeholder="Password">
+            <button onclick="register()">Register with OTP</button>
+            <button onclick="showLogin()">Back to Login</button>
+        </div>
+        <div class="forgot-form hidden" id="forgotForm">
+            <h3>Forgot Password</h3>
+            <input type="email" id="forgotEmail" placeholder="Email">
+            <button onclick="forgotPassword()">Send Reset Link</button>
+            <button onclick="showLogin()">Back to Login</button>
+        </div>
+        <div class="dashboard hidden" id="dashboard">
+            <h3>Your Dashboard</h3>
+            <div id="orderHistory"></div>
+            <div id="productAccess"></div>
+            <button class="cta" onclick="downloadInvoice()">Download Invoice</button>
         </div>
     </section>
 
     <!-- Payment System -->
-    <section id="payment" style="display: none;">
-        <h2>Payment</h2>
+    <section id="payment" class="section">
+        <h2>Complete Your Payment</h2>
         <div class="payment-options">
-            <button onclick="payWithUPI('gpay')">Google Pay</button>
-            <button onclick="payWithUPI('phonepe')">PhonePe</button>
-            <button onclick="payWithUPI('paytm')">Paytm</button>
-            <div class="qr-code">QR Code: <img src="placeholder-qr.png" alt="QR"></div>
+            <div class="payment-btn" onclick="payWithUPI('gpay')">Google Pay</div>
+            <div class="payment-btn" onclick="payWithUPI('phonepe')">PhonePe</div>
+            <div class="payment-btn" onclick="payWithUPI('paytm')">Paytm</div>
+            <div class="payment-btn" onclick="payWithUPI('bhim')">BHIM UPI</div>
         </div>
-        <p>UPI ID: elite.canva.zone@jio</p>
+        <div class="qr-code">
+            <h3>Or Scan QR</h3>
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGRkZGRkYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzAwMDAwMCI+UVIgQ29kZTwvdGV4dD48L3N2Zz4=" alt="QR Code">
+            <p>Amount: ₹<span id="payAmount">0</span> | Product: <span id="payProduct">None</span></p>
+        </div>
+        <p>UPI ID: <span id="upiId">elite.canva.zone@jio</span></p>
     </section>
 
-    <!-- WhatsApp Redirect (Simulated) -->
-    <section id="whatsapp" style="display: none;">
-        <h2>Payment Done - Redirecting to WhatsApp</h2>
-        <p>Auto Message: Hi, I have completed the payment Product: {{Product Name}} Amount: ₹{{Amount}} UPI ID: {{UPI_ID}} Order ID: {{OrderID}}</p>
-        <button onclick="redirectToWhatsApp()">Send Message</button>
-    </section>
-
-    <!-- Admin Panel (Simulated - In Real, Separate URL with Auth) -->
-    <section id="admin" class="admin-panel">
-        <h2>Admin Panel</h2>
-        <div class="login-form">
-            <input type="text" id="adminUser" placeholder="Username">
-            <input type="password" id="adminPass" placeholder="Password">
-            <button onclick="adminLogin()">Login</button>
-        </div>
-        <div id="adminDashboard" style="display: none;">
-            <h3>Dashboard</h3>
-            <p>Total Sales: Placeholder</p>
-            <p>Orders: Placeholder</p>
-            <div class="product-management">
-                <h4>Product Management</h4>
-                <button onclick="addProduct()">Add Product</button>
-                <!-- Add forms for edit/delete -->
-            </div>
-            <div class="payment-settings">
-                <h4>Payment Settings</h4>
-                <input type="text" id="upiId" value="elite.canva.zone@jio">
-                <button onclick="updateUPI()">Update UPI</button>
-            </div>
-            <!-- Add more sections for customer/order management -->
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="logo">ELITE CANVA ZONE</div>
-        <p>Policies | Contact</p>
-    </footer>
-
-    <script>
-        // Basic JS for Interactivity (Simulating Features - In Real, Use Backend)
-
-        // Navigation
-        function showSection(sectionId) {
-            document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
-            document.getElementById(sectionId).style.display = 'block';
-        }
-
-        // Buy Now
-        function showBuyNow() {
-            showSection('payment');
-        }
-
-        // Product Buy
-        function buyProduct() {
-            showSection('payment');
-        }
-
-        // Login/Register (Simulated with localStorage)
-        function login() {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            // Simulate login
-            if (email && pass) {
-                document.getElementById('dashboard').style.display = 'block';
-                alert('Logged in');
-            }
-        }
-
-        function register() {
-            // Simulate registration
-            alert('Registered');
-        }
-
-        function forgotPassword() {
-            alert('Password reset link sent');
-        }
-
-        // Payment (Simulated)
-        function payWithUPI(app) {
-            // In real, redirect to UPI app with intent
-            alert(`Redirecting to ${app}`);
-            // After payment, show WhatsApp
-            setTimeout(() => showSection('whatsapp'), 2000);
-        }
-
-        // WhatsApp Redirect (Simulated)
-        function redirectToWhatsApp() {
-            const message = "Hi, I have completed the payment Product: Sample Amount: ₹100 UPI ID: elite.canva.zone@jio Order ID: 12345";
-            const url = `https://wa.me/7588363851?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        }
-
-        // Admin Login (Simulated - Password: kanha@1432)
-        function adminLogin() {
-            const user = document.getElementById('adminUser').value;
-            const pass = document.getElementById('adminPass').value;
-            if (pass === 'kanha@1432') {
-                document.getElementById('adminDashboard').style.display = 'block';
-                alert('Admin Logged in');
-            } else {
-                alert('Invalid');
-            }
-        }
-
-        // Admin Functions (Simulated)
-        function addProduct() {
-            alert('Product Added');
-        }
-
-        function updateUPI() {
-            const upi = document.getElementById('upiId').value;
-            alert(`UPI Updated to ${upi}`);
-        }
-
-        // Show Home by Default
-        showSection('home');
-
-        // Note: This is a static simulation. For full functionality (payments, backend, security), implement with a server-side language like Node.js, PHP, etc. UPI payments require integration with payment gateways. Admin should be on a separate secure URL.
-    </script>
-</body>
-</html>
+    <!-- WhatsApp Redirect -->
+    <section id="whatsapp" class="section">
+        <h2>Payment Successful!</h2>
+        <p>Redirecting to WhatsApp for verification...</p>
+        <div id="whatsappMessage"></div>
+        <button
