@@ -1,166 +1,220 @@
-:root {
-  --primary: #2563EB; /* Electric Blue */
-  --secondary: #7C3AED; /* Neon Purple */
-  --accent: #06B6D4; /* Bright Cyan */
-  --cta: #FACC15; /* Neon Yellow */
-  --success: #22C55E; /* Green */
-  --bg-dark: #020617; /* Dark Navy */
-  --bg-light: #FFFFFF; /* White */
-}import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-const HomePage = () => {
-  return (
-    <div className="bg-dark-navy text-white">
-      {/* Header */}
-      <header className="flex justify-between items-center p-4 bg-primary">
-        <img src="logo.png" alt="ELITE CANVA ZONE" className="h-10" />
-        <nav className="space-x-4">
-          <a href="#products">Products</a>
-          <a href="#account">Account</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELITE CANVA ZONE</title>
+    <style>
+        /* Basic CSS for Bright & Engaging Theme */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #020617; color: #FFFFFF; }
+        header { background: linear-gradient(45deg, #2563EB, #7C3AED); padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; }
+        nav { display: flex; gap: 20px; }
+        nav a { color: #FFFFFF; text-decoration: none; }
+        .cta { background: #FACC15; color: #020617; padding: 10px 20px; border: none; cursor: pointer; }
+        .hero { text-align: center; padding: 50px; background: url('placeholder-hero.jpg') no-repeat center; background-size: cover; }
+        .product-gallery { display: flex; overflow-x: scroll; gap: 10px; padding: 20px; }
+        .product-item { min-width: 200px; height: 300px; background: #FFFFFF; border-radius: 10px; }
+        .footer { background: #2563EB; padding: 20px; text-align: center; }
+        .admin-panel { display: none; } /* Hidden by default, shown via JS */
+        .login-form { display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 50px auto; }
+        input, button { padding: 10px; }
+        .dashboard { display: none; } /* For customer dashboard */
+        /* Add more CSS as needed for full styling */
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">ELITE CANVA ZONE</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#account">Account</a>
+            <button class="cta" onclick="showBuyNow()">Buy Now</button>
         </nav>
-        <button className="bg-cta text-black px-4 py-2 rounded">Buy Now</button>
-      </header>
+    </header>
 
-      {/* Hero Section */}
-      <section className="hero bg-secondary p-8 text-center">
-        <video className="w-full max-w-sm mx-auto aspect-[9/16]" controls>
-          <source src="hero-video.mp4" type="video/mp4" />
-        </video>
-        <h1 className="text-4xl mt-4">Elite Canva Templates</h1>
-      </section>
-
-      {/* Featured Products (Reels-Style) */}
-      <section className="featured p-8">
-        <h2>Featured Products</h2>
-        <Swiper spaceBetween={10} slidesPerView={1.5} className="my-4">
-          <SwiperSlide>
-            <img src="product1.jpg" alt="Product 1" className="aspect-[9/16] rounded" />
-          </SwiperSlide>
-          {/* Add more slides */}
-        </Swiper>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="trust p-8">
-        <h2>Why Choose Us?</h2>
-        <div className="grid grid-cols-3 gap-4">
-          <div>Icon: Secure Payments</div>
-          <div>Icon: Instant Delivery</div>
-          <div>Icon: 24/7 Support</div>
+    <!-- Home Page -->
+    <section id="home" class="hero">
+        <h1>Welcome to ELITE CANVA ZONE</h1>
+        <p>Professional Canva Templates & Designs</p>
+        <div class="product-gallery">
+            <!-- Placeholder for 9:16 product previews -->
+            <div class="product-item">Product 1 (9:16 Image/Video)</div>
+            <div class="product-item">Product 2</div>
+            <!-- Add more -->
         </div>
-      </section>
+        <div class="trust-icons">Why Choose Us: Trust Icons Here</div>
+        <div class="payment-methods">Payments: GPay, PhonePe, Paytm, UPI</div>
+        <div class="whatsapp-support">WhatsApp Support: 7588363851</div>
+    </section>
 
-      {/* Payment Methods */}
-      <section className="payments p-8">
-        <h2>Accepted Payments</h2>
-        <div className="flex space-x-4">
-          <img src="gpay-logo.png" alt="Google Pay" />
-          <img src="phonepe-logo.png" alt="PhonePe" />
-          <img src="paytm-logo.png" alt="Paytm" />
-          <img src="upi-logo.png" alt="UPI" />
+    <!-- Product Page -->
+    <section id="products" style="display: none;">
+        <h2>Products</h2>
+        <div class="product-gallery">
+            <!-- Fullscreen gallery with images/videos -->
+            <div class="product-item">Image 9:16</div>
+            <div class="product-item">Video</div>
+            <div class="product-item">YouTube Embed</div>
         </div>
-      </section>
+        <div class="product-details">
+            <p>Price: ₹100</p>
+            <p>Validity: Lifetime</p>
+            <button class="cta" onclick="buyProduct()">Buy Now</button>
+        </div>
+    </section>
 
-      {/* WhatsApp Support */}
-      <section className="whatsapp p-8">
-        <a href="https://wa.me/7588363851" className="bg-accent text-white px-4 py-2 rounded">Chat on WhatsApp</a>
-      </section>
+    <!-- Customer Account System -->
+    <section id="account" style="display: none;">
+        <h2>Account</h2>
+        <div class="login-form">
+            <input type="email" id="email" placeholder="Email/Phone">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <button onclick="register()">Register</button>
+            <button onclick="forgotPassword()">Forgot Password</button>
+        </div>
+        <div class="dashboard" id="dashboard">
+            <h3>Dashboard</h3>
+            <p>Order History: Placeholder</p>
+            <p>Product Access: Placeholder</p>
+            <button onclick="downloadInvoice()">Download Invoice</button>
+        </div>
+    </section>
 
-      {/* Footer */}
-      <footer className="bg-primary p-4 text-center">
-        <img src="logo.png" alt="Logo" className="h-8" />
+    <!-- Payment System -->
+    <section id="payment" style="display: none;">
+        <h2>Payment</h2>
+        <div class="payment-options">
+            <button onclick="payWithUPI('gpay')">Google Pay</button>
+            <button onclick="payWithUPI('phonepe')">PhonePe</button>
+            <button onclick="payWithUPI('paytm')">Paytm</button>
+            <div class="qr-code">QR Code: <img src="placeholder-qr.png" alt="QR"></div>
+        </div>
+        <p>UPI ID: elite.canva.zone@jio</p>
+    </section>
+
+    <!-- WhatsApp Redirect (Simulated) -->
+    <section id="whatsapp" style="display: none;">
+        <h2>Payment Done - Redirecting to WhatsApp</h2>
+        <p>Auto Message: Hi, I have completed the payment Product: {{Product Name}} Amount: ₹{{Amount}} UPI ID: {{UPI_ID}} Order ID: {{OrderID}}</p>
+        <button onclick="redirectToWhatsApp()">Send Message</button>
+    </section>
+
+    <!-- Admin Panel (Simulated - In Real, Separate URL with Auth) -->
+    <section id="admin" class="admin-panel">
+        <h2>Admin Panel</h2>
+        <div class="login-form">
+            <input type="text" id="adminUser" placeholder="Username">
+            <input type="password" id="adminPass" placeholder="Password">
+            <button onclick="adminLogin()">Login</button>
+        </div>
+        <div id="adminDashboard" style="display: none;">
+            <h3>Dashboard</h3>
+            <p>Total Sales: Placeholder</p>
+            <p>Orders: Placeholder</p>
+            <div class="product-management">
+                <h4>Product Management</h4>
+                <button onclick="addProduct()">Add Product</button>
+                <!-- Add forms for edit/delete -->
+            </div>
+            <div class="payment-settings">
+                <h4>Payment Settings</h4>
+                <input type="text" id="upiId" value="elite.canva.zone@jio">
+                <button onclick="updateUPI()">Update UPI</button>
+            </div>
+            <!-- Add more sections for customer/order management -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="logo">ELITE CANVA ZONE</div>
         <p>Policies | Contact</p>
-      </footer>
-    </div>
-  );
-};
+    </footer>
 
-export default HomePage;
-const ProductPage = ({ product }) => {
-  return (
-    <div className="product-page bg-white">
-      <Swiper className="gallery h-screen">
-        <SwiperSlide>
-          <img src={product.image9_16} alt="9:16" className="w-full h-full object-cover" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <video src={product.video} controls className="w-full h-full" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <iframe src={product.youtube} className="w-full h-full" />
-        </SwiperSlide>
-      </Swiper>
-      <div className="details p-4">
-        <h1>{product.name}</h1>
-        <p>Price: ₹{product.price}</p>
-        <p>Validity: {product.validity}</p>
-      </div>
-      <button className="sticky bottom-0 bg-cta text-black w-full py-4">Buy Now</button>
-    </div>
-  );
-};const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const app = express();
-app.use(express.json());
-// Register/Login
-app.post('/register', async (req, res) => {
-  const { email, phone } = req.body;
-  // Send OTP (integrate Twilio)
-  // Save user to DB
-  res.send({ message: 'OTP sent' });
-});
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  // Verify password
-  const token = jwt.sign({ userId: user.id }, 'secret');
-  res.send({ token });
-});
-// Dashboard
-app.get('/dashboard', (req, res) => {
-  // Fetch orders from DB
-  res.send({ orders: [] });
-});
-app.listen(3000);
-import Razorpay from 'razorpay';
+    <script>
+        // Basic JS for Interactivity (Simulating Features - In Real, Use Backend)
 
-const handlePayment = () => {
-  const options = {
-    key: 'your_razorpay_key',
-    amount: 10000, // in paise
-    currency: 'INR',
-    name: 'ELITE CANVA ZONE',
-    description: 'Product Purchase',
-    image: 'logo.png',
-    handler: (response) => {
-      // On success, redirect to WhatsApp
-      window.location.href = `https://wa.me/7588363851?text=Hi, I have completed the payment. Product: ${productName}, Amount: ₹${amount}, UPI ID: ${upiId}, Order ID: ${orderId}`;
-    },
-    prefill: { email: 'user@example.com' },
-  };
-  const rzp = new Razorpay(options);
-  rzp.open();
-};
-const AdminDashboard = () => {
-  // Fetch data from API
-  return (
-    <div className="admin bg-dark-navy text-white">
-      <h1>Admin Panel</h1>
-      <div className="stats grid grid-cols-4 gap-4">
-        <div>Total Sales: ₹10,000</div>
-        <div>Orders: 50</div>
-        {/* Add charts */}
-      </div>
-      {/* Product Management */}
-      <form onSubmit={handleAddProduct}>
-        <input name="name" placeholder="Product Name" />
-        <input name="price" placeholder="Price" />
-        <button type="submit">Add Product</button>
-      </form>
-      {/* Payment Settings */}
-      <input name="upiId" value={upiId} onChange={setUpiId} />
-      <button onClick={updateUpiId}>Update UPI ID</button>
-    </div>
-  );
-};
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Buy Now
+        function showBuyNow() {
+            showSection('payment');
+        }
+
+        // Product Buy
+        function buyProduct() {
+            showSection('payment');
+        }
+
+        // Login/Register (Simulated with localStorage)
+        function login() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            // Simulate login
+            if (email && pass) {
+                document.getElementById('dashboard').style.display = 'block';
+                alert('Logged in');
+            }
+        }
+
+        function register() {
+            // Simulate registration
+            alert('Registered');
+        }
+
+        function forgotPassword() {
+            alert('Password reset link sent');
+        }
+
+        // Payment (Simulated)
+        function payWithUPI(app) {
+            // In real, redirect to UPI app with intent
+            alert(`Redirecting to ${app}`);
+            // After payment, show WhatsApp
+            setTimeout(() => showSection('whatsapp'), 2000);
+        }
+
+        // WhatsApp Redirect (Simulated)
+        function redirectToWhatsApp() {
+            const message = "Hi, I have completed the payment Product: Sample Amount: ₹100 UPI ID: elite.canva.zone@jio Order ID: 12345";
+            const url = `https://wa.me/7588363851?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Admin Login (Simulated - Password: kanha@1432)
+        function adminLogin() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+            if (pass === 'kanha@1432') {
+                document.getElementById('adminDashboard').style.display = 'block';
+                alert('Admin Logged in');
+            } else {
+                alert('Invalid');
+            }
+        }
+
+        // Admin Functions (Simulated)
+        function addProduct() {
+            alert('Product Added');
+        }
+
+        function updateUPI() {
+            const upi = document.getElementById('upiId').value;
+            alert(`UPI Updated to ${upi}`);
+        }
+
+        // Show Home by Default
+        showSection('home');
+
+        // Note: This is a static simulation. For full functionality (payments, backend, security), implement with a server-side language like Node.js, PHP, etc. UPI payments require integration with payment gateways. Admin should be on a separate secure URL.
+    </script>
+</body>
+</html>
