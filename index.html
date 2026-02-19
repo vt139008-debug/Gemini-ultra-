@@ -1,182 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ELITE CANVA ZONE - Professional Canva Templates & Designs. Buy high-quality digital products with easy UPI payments.">
-    <meta name="keywords" content="Canva Templates, Digital Products, UPI Payments, WhatsApp Support">
-    <title>ELITE CANVA ZONE - Professional Digital Products</title>
-    <style>
-        /* Advanced CSS for Bright & Engaging Theme */
-        * { box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background: linear-gradient(135deg, #020617 0%, #1e293b 100%); color: #FFFFFF; line-height: 1.6; }
-        header { background: linear-gradient(45deg, #2563EB, #7C3AED); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 28px; font-weight: bold; color: #FACC15; }
-        nav { display: flex; gap: 20px; }
-        nav a { color: #FFFFFF; text-decoration: none; font-weight: bold; transition: color 0.3s; }
-        nav a:hover { color: #06B6D4; }
-        .cta { background: #FACC15; color: #020617; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
-        .cta:hover { background: #EAB308; }
-        .hero { text-align: center; padding: 80px 20px; background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzI1NjNFQiIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdDM0FFRCIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiLz4KPC9zdmc+') no-repeat center; background-size: cover; animation: fadeIn 2s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .product-gallery { display: flex; overflow-x: auto; gap: 15px; padding: 20px; scrollbar-width: thin; scrollbar-color: #2563EB #020617; }
-        .product-item { min-width: 250px; height: 400px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s; cursor: pointer; }
-        .product-item:hover { transform: scale(1.05); }
-        .product-item img, .product-item video { width: 100%; height: 70%; object-fit: cover; border-radius: 15px 15px 0 0; }
-        .product-details { padding: 10px; text-align: center; color: #020617; }
-        .footer { background: #2563EB; padding: 30px 20px; text-align: center; color: #FFFFFF; }
-        .footer .logo { margin-bottom: 10px; }
-        .section { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
-        .login-form, .register-form, .forgot-form { display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 50px auto; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        input, select, textarea { padding: 12px; border: 1px solid #06B6D4; border-radius: 8px; background: #FFFFFF; color: #020617; }
-        button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .dashboard { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 20px; }
-        .payment-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin: 20px 0; }
-        .payment-btn { background: #22C55E; color: #FFFFFF; padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: background 0.3s; }
-        .payment-btn:hover { background: #16A34A; }
-        .qr-code { text-align: center; margin: 20px 0; }
-        .qr-code img { max-width: 200px; border-radius: 10px; }
-        .admin-panel { background: #020617; padding: 40px; }
-        .admin-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .admin-section { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; }
-        .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .table th, .table td { padding: 10px; border: 1px solid #06B6D4; text-align: left; }
-        .analytics { display: flex; justify-content: space-around; margin: 20px 0; }
-        .chart { width: 200px; height: 100px; background: #2563EB; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; }
-        .coupon-form, .affiliate-form { margin-top: 20px; }
-        .logs { max-height: 200px; overflow-y: auto; background: #FFFFFF; color: #020617; padding: 10px; border-radius: 8px; }
-        .maintenance { text-align: center; margin-top: 20px; }
-        .hidden { display: none; }
-        @media (max-width: 768px) { .product-gallery { flex-direction: column; } .admin-dashboard { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELITE CANVA ZONE</title>
+
+<style>
+:root{
+--primary:#2563EB;
+--secondary:#7C3AED;
+--accent:#06B6D4;
+--cta:#FACC15;
+--success:#22C55E;
+--dark:#020617;
+--white:#ffffff;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--dark);
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+}
+
+.logo{
+font-size:20px;
+font-weight:bold;
+}
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.cta{
+background:var(--cta);
+color:black;
+}
+
+.container{
+padding:20px;
+}
+
+.product-card{
+background:#111827;
+padding:15px;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+.product-img{
+width:100%;
+border-radius:10px;
+}
+
+.price{
+color:var(--success);
+font-size:20px;
+font-weight:bold;
+}
+
+.buy-btn{
+background:var(--primary);
+color:white;
+width:100%;
+margin-top:10px;
+}
+
+.hidden{
+display:none;
+}
+
+.admin-panel{
+background:#111827;
+padding:20px;
+margin-top:20px;
+border-radius:12px;
+}
+
+input{
+padding:8px;
+border-radius:6px;
+border:none;
+margin:5px 0;
+width:100%;
+}
+
+.footer{
+text-align:center;
+padding:15px;
+background:#111827;
+margin-top:20px;
+}
+</style>
 </head>
+
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">ELITE CANVA ZONE</div>
-        <nav>
-            <a href="#" onclick="showSection('home')">Home</a>
-            <a href="#" onclick="showSection('products')">Products</a>
-            <a href="#" onclick="showSection('account')">Account</a>
-            <button class="cta" onclick="showBuyNow()">Buy Now</button>
-        </nav>
-    </header>
 
-    <!-- Home Page -->
-    <section id="home" class="section">
-        <div class="hero">
-            <h1>Welcome to ELITE CANVA ZONE</h1>
-            <p>Professional Canva Templates & Designs for Your Business</p>
-            <div class="product-gallery">
-                <div class="product-item" onclick="viewProduct(1)">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDI1MCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI1MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiMyNTYzRUIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iI0ZGRkZGRiI+UHJvZHVjdCAxPC90ZXh0Pjwvc3ZnPg==" alt="Product 1">
-                    <div class="product-details">
-                        <h3>Template 1</h3>
-                        <p>₹500 | Lifetime</p>
-                    </div>
-                </div>
-                <div class="product-item" onclick="viewProduct(2)">
-                    <video controls style="width:100%; height:70%;"><source src="data:video/mp4;base64,AAAAHGZ0eXBtcDQyAAACAGlzb21pc28yYXZjMQAAAAhmcmVlAAAGF21kYXQ=" type="video/mp4"></video>
-                    <div class="product-details">
-                        <h3>Video Template</h3>
-                        <p>₹300 | Yearly</p>
-                    </div>
-                </div>
-                <!-- Add more products dynamically -->
-            </div>
-            <div class="trust-icons">
-                <h3>Why Choose Us?</h3>
-                <ul>
-                    <li>High-Quality Designs</li>
-                    <li>Instant Delivery</li>
-                    <li>24/7 Support</li>
-                </ul>
-            </div>
-            <div class="payment-methods">
-                <h3>Accepted Payments</h3>
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIgZmlsbD0iIzI1NjNFQiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjRkZGRkZGIj5HUGF5PC90ZXh0Pjwvc3ZnPg==" alt="GPay">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIgZmlsbD0iIzZCNkQ0NCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjRkZGRkZGIj5QaG9uZVBldTwvdGV4dD48L3N2Zz4=" alt="PhonePe">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyNSIgZmlsbD0iIzdDM0FFRCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjRkZGRkZGIj5QGF5dG08L3RleHQ+PC9zdmc+ " alt="Paytm">
-                <span>UPI</span>
-            </div>
-            <div class="whatsapp-support">
-                <h3>Need Help?</h3>
-                <p>Contact us on WhatsApp: <a href="https://wa.me/7588363851" target="_blank">7588363851</a></p>
-            </div>
-        </div>
-    </section>
+<header>
+<div class="logo">🚀 ELITE CANVA ZONE</div>
+<button class="cta" onclick="showAdmin()">Admin</button>
+</header>
 
-    <!-- Product Page -->
-    <section id="products" class="section">
-        <h2>Our Products</h2>
-        <div class="product-gallery" id="fullGallery">
-            <!-- Dynamic gallery -->
-        </div>
-        <div id="productView" class="hidden">
-            <h3 id="productTitle"></h3>
-            <div id="mediaContainer"></div>
-            <div class="product-details">
-                <p id="productDesc"></p>
-                <p id="productPrice"></p>
-                <p id="productValidity"></p>
-                <button class="cta" onclick="buyProduct(currentProduct)">Buy Now</button>
-            </div>
-        </div>
-    </section>
+<div class="container">
 
-    <!-- Customer Account System -->
-    <section id="account" class="section">
-        <h2>Customer Account</h2>
-        <div class="login-form" id="loginForm">
-            <h3>Login</h3>
-            <input type="email" id="email" placeholder="Email/Phone">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="login()">Login</button>
-            <button onclick="showRegister()">Register</button>
-            <button onclick="showForgot()">Forgot Password</button>
-        </div>
-        <div class="register-form hidden" id="registerForm">
-            <h3>Register</h3>
-            <input type="email" id="regEmail" placeholder="Email">
-            <input type="text" id="regPhone" placeholder="Phone">
-            <input type="password" id="regPass" placeholder="Password">
-            <button onclick="register()">Register with OTP</button>
-            <button onclick="showLogin()">Back to Login</button>
-        </div>
-        <div class="forgot-form hidden" id="forgotForm">
-            <h3>Forgot Password</h3>
-            <input type="email" id="forgotEmail" placeholder="Email">
-            <button onclick="forgotPassword()">Send Reset Link</button>
-            <button onclick="showLogin()">Back to Login</button>
-        </div>
-        <div class="dashboard hidden" id="dashboard">
-            <h3>Your Dashboard</h3>
-            <div id="orderHistory"></div>
-            <div id="productAccess"></div>
-            <button class="cta" onclick="downloadInvoice()">Download Invoice</button>
-        </div>
-    </section>
+<h2>Featured Product</h2>
 
-    <!-- Payment System -->
-    <section id="payment" class="section">
-        <h2>Complete Your Payment</h2>
-        <div class="payment-options">
-            <div class="payment-btn" onclick="payWithUPI('gpay')">Google Pay</div>
-            <div class="payment-btn" onclick="payWithUPI('phonepe')">PhonePe</div>
-            <div class="payment-btn" onclick="payWithUPI('paytm')">Paytm</div>
-            <div class="payment-btn" onclick="payWithUPI('bhim')">BHIM UPI</div>
-        </div>
-        <div class="qr-code">
-            <h3>Or Scan QR</h3>
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGRkZGRkYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzAwMDAwMCI+UVIgQ29kZTwvdGV4dD48L3N2Zz4=" alt="QR Code">
-            <p>Amount: ₹<span id="payAmount">0</span> | Product: <span id="payProduct">None</span></p>
-        </div>
-        <p>UPI ID: <span id="upiId">elite.canva.zone@jio</span></p>
-    </section>
+<div class="product-card">
+<img src="https://via.placeholder.com/400x700" class="product-img">
+<h3>Instagram Reel Bundle</h3>
+<div class="price">₹499</div>
+<button class="buy-btn" onclick="startPayment('Instagram Reel Bundle',499)">Buy Now</button>
+</div>
 
-    <!-- WhatsApp Redirect -->
-    <section id="whatsapp" class="section">
-        <h2>Payment Successful!</h2>
-        <p>Redirecting to WhatsApp for verification...</p>
-        <div id="whatsappMessage"></div>
-        <button
+<div id="paymentSection" class="hidden">
+<h2>Select Payment Method</h2>
+
+<button onclick="payUPI('gpay')">Google Pay</button>
+<button onclick="payUPI('phonepe')">PhonePe</button>
+<button onclick="payUPI('paytm')">Paytm</button>
+<button onclick="showQR()">Scan QR</button>
+
+<div id="qrSection" class="hidden">
+<h3>Scan & Pay</h3>
+<img src="https://via.placeholder.com/300" width="200">
+</div>
+</div>
+
+<div id="adminLogin" class="hidden">
+<h2>Admin Login</h2>
+<input type="password" id="adminPass" placeholder="Enter Password">
+<button onclick="adminAccess()">Login</button>
+</div>
+
+<div id="adminPanel" class="hidden admin-panel">
+<h2>Admin Dashboard</h2>
+<p>Total Orders: <span id="totalOrders">0</span></p>
+
+<h3>Change UPI ID</h3>
+<input id="upiInput" placeholder="UPI ID">
+<button onclick="saveUPI()">Save</button>
+
+<h3>Orders</h3>
+<div id="ordersList"></div>
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 ELITE CANVA ZONE | All Rights Reserved
+</div>
+
+<script>
+
+let currentProduct = "";
+let currentAmount = 0;
+let upiID = localStorage.getItem("upiID") || "elite.canva.zone@jio";
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+document.getElementById("totalOrders").innerText = orders.length;
+
+function startPayment(product, amount){
+currentProduct = product;
+currentAmount = amount;
+document.getElementById("paymentSection").classList.remove("hidden");
+}
+
+function generateOrderID(){
+return "ORD" + Math.floor(Math.random()*1000000);
+}
+
+function payUPI(app){
+let orderID = generateOrderID();
+let upiLink = `upi://pay?pa=${upiID}&pn=ELITE CANVA ZONE&am=${currentAmount}&cu=INR&tn=${currentProduct}-${orderID}`;
+
+window.location.href = upiLink;
+
+saveOrder(orderID,"Pending");
+redirectWhatsApp(orderID);
+}
+
+function showQR(){
+document.getElementById("qrSection").classList.remove("hidden");
+}
+
+function saveOrder(orderID,status){
+let order = {
+id:orderID,
+product:currentProduct,
+amount:currentAmount,
+status:status
+};
+orders.push(order);
+localStorage.setItem("orders",JSON.stringify(orders));
+document.getElementById("totalOrders").innerText = orders.length;
+loadOrders();
+}
+
+function redirectWhatsApp(orderID){
+let msg = `Hi, I have completed the payment
+Product: ${currentProduct}
+Amount: ₹${currentAmount}
+UPI ID: ${upiID}
+Order ID: ${orderID}`;
+
+let url = `https://wa.me/917588363851?text=${encodeURIComponent(msg)}`;
+setTimeout(()=>{window.location.href=url;},3000);
+}
+
+function showAdmin(){
+document.getElementById("adminLogin").classList.remove("hidden");
+}
+
+function adminAccess(){
+let pass = document.getElementById("adminPass").value;
+if(pass==="kanha@7890"){
+document.getElementById("adminPanel").classList.remove("hidden");
+document.getElementById("adminLogin").classList.add("hidden");
+loadOrders();
+}else{
+alert("Wrong Password");
+}
+}
+
+function saveUPI(){
+upiID = document.getElementById("upiInput").value;
+localStorage.setItem("upiID",upiID);
+alert("UPI Updated");
+}
+
+function loadOrders(){
+let list = document.getElementById("ordersList");
+list.innerHTML="";
+orders.forEach(o=>{
+list.innerHTML += `
+<div style="background:#1f2937;padding:10px;margin:5px 0;border-radius:8px">
+Order ID: ${o.id}<br>
+Product: ${o.product}<br>
+Amount: ₹${o.amount}<br>
+Status: ${o.status}
+</div>`;
+});
+}
+
+loadOrders();
+
+</script>
+
+</body>
+</html>
